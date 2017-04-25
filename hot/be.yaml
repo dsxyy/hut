@@ -1,0 +1,47 @@
+heat_template_version: "2013-05-23"
+
+description: Main hot for creating vnf
+
+parameters:
+  image_name:
+    type: string
+    default: centos_7_2
+
+  flavor_name:
+    type: string
+    default: m1.medium
+
+  net_name:
+    type: string
+    
+  sshkey_name:
+    type: string
+
+  num_vm:
+    type: number
+    default: 2
+
+resources:
+  instances:
+    type: OS::Heat::ResourceGroup
+    properties:
+      count: { get_param: num_vm }
+      resource_def:
+        type: OS::Nova::Server  
+        properties:  
+          image: {get_param: image_name}
+          key_name: {get_param: sshkey_name}
+          name: BE_%index%
+          flavor: {get_param: flavor_name}
+          networks:
+            - network: { get_param: net_name }
+          user_data: |
+            #!/bin/bash
+            echo "Running boot script"
+
+
+outputs:
+  instance_ip:
+    description: The URL of the website
+    value: { get_attr: [instances, attributes] }
+

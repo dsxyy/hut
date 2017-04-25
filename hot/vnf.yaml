@@ -11,36 +11,53 @@ parameters:
     type: string
     default: m1.medium
 
+  net_name:
+    type: string
+    default: net1
+
+  num_be:
+    type: number
+    default: 2
+
+  num_fe:
+    type: number
+    default: 2
 
 resources:
-  my_keypair:
+  vnf_keypair:
     type: OS::Nova::KeyPair
     properties:
       name: vnfkey
       public_key: 
         get_file: http://10.16.9.119/noCAMB/keypair/vnf_key.pub
  
-  my_port:
-    type: OS::Neutron::Port
-    properties:
-      network: net1
-
-  my_instance:  
-    type: OS::Nova::Server  
+  vnf_oam:  
+    type: oam.yaml 
     properties:  
-      image: {get_param: image_name}
-      key_name: {Ref: my_keypair}
-      name: yytest
-      flavor: {get_param: flavor_name}
-      networks:
-        - port: { get_resource: my_port }
-      user_data: |
-        #!/bin/bash
-        echo "Running boot script"
+      image_name: {get_param: image_name}
+      sshkey_name: {get_resource: vnf_keypair}
+      flavor_name: {get_param: flavor_name}
+      net_name: { get_param: net_name }
 
+  vnf_be:  
+    type: be.yaml 
+    properties:  
+      image_name: {get_param: image_name}
+      sshkey_name: {get_resource: vnf_keypair}
+      flavor_name: {get_param: flavor_name}
+      net_name: { get_param: net_name }
+      num_vm: { get_param: num_be }
+
+  vnf_fe:  
+    type: fe.yaml 
+    properties:  
+      image_name: {get_param: image_name}
+      sshkey_name: {get_resource: vnf_keypair}
+      flavor_name: {get_param: flavor_name}
+      net_name: { get_param: net_name }
+      num_vm: { get_param: num_fe }
 
 outputs:
   instance_ip:
     description: The URL of the website
-    value: { get_attr: [my_port, fixed_ips, 0, ip_address] }
-
+    value: {get_resource: vnf_keypair}
