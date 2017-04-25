@@ -1,0 +1,46 @@
+heat_template_version: "2013-05-23"
+
+description: Main hot for creating vnf
+
+parameters:
+  image_name:
+    type: string
+    default: centos_7_2
+
+  flavor_name:
+    type: string
+    default: m1.medium
+
+
+resources:
+  my_keypair:
+    type: OS::Nova::KeyPair
+    properties:
+      name: vnfkey
+      public_key: 
+        get_file: http://10.16.9.119/noCAMB/keypair/vnf_key.pub
+ 
+  my_port:
+    type: OS::Neutron::Port
+    properties:
+      network: net1
+
+  my_instance:  
+    type: OS::Nova::Server  
+    properties:  
+      image: {get_param: image_name}
+      key_name: {Ref: my_keypair}
+      name: yytest
+      flavor: {get_param: flavor_name}
+      networks:
+        - port: { get_resource: my_port }
+      user_data: |
+        #!/bin/bash
+        echo "Running boot script"
+
+
+outputs:
+  instance_ip:
+    description: The URL of the website
+    value: { get_attr: [my_port, fixed_ips, 0, ip_address] }
+

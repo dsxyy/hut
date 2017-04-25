@@ -1,0 +1,24 @@
+---
+version: "2.0"
+
+vnf_workflow:
+  type: direct
+
+  input:
+    - names
+
+  tasks:
+    get_template:
+      action: std.ssh host="127.0.0.1" username="root" password="siemens"
+      input:
+        cmd: "cat /home/yaoyuan/noCBAM/hot/vnf.yaml"
+      publish:
+        stack_template: <% $.get_template %>
+      on-success: Instantiate
+
+
+    Instantiate:
+      action: heat.stacks_create stack_name="vnf" template=<% $.stack_template %>
+
+    # Terminate:
+    #   action: heat.stacks_delete stack_id=helloworld
