@@ -30,7 +30,7 @@ resources:
         type: OS::Nova::Server  
         properties:  
           image: {get_param: image_name}
-          key_name: {get_param: sshkey_name}
+          # key_name: {get_param: sshkey_name}
           name: BE_%index%
           flavor: {get_param: flavor_name}
           networks:
@@ -38,7 +38,9 @@ resources:
           user_data: |
             #!/bin/bash
             echo "Running boot script"
-
+          personality: 
+            /root/.ssh/authorized_keys: 
+              get_file: ../keypair/vnf_key.pub
 
 outputs:
   instance_ip:

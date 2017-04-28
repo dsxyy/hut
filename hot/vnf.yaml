@@ -1,4 +1,4 @@
-heat_template_version: "2013-05-23"
+heat_template_version: "2014-10-16"
 
 description: Main hot for creating vnf
 
@@ -14,6 +14,10 @@ parameters:
   net_name:
     type: string
     default: net1
+
+  public_net:
+    type: string
+    default: external
 
   num_be:
     type: number
@@ -38,6 +42,7 @@ resources:
       sshkey_name: {get_resource: vnf_keypair}
       flavor_name: {get_param: flavor_name}
       net_name: { get_param: net_name }
+      public_net: { get_param: public_net }
 
   vnf_be:  
     type: be.yaml 
@@ -49,7 +54,7 @@ resources:
       num_vm: { get_param: num_be }
 
   vnf_fe:  
-    type: fe.yaml 
+    type: fes.yaml 
     properties:  
       image_name: {get_param: image_name}
       sshkey_name: {get_resource: vnf_keypair}
@@ -58,6 +63,10 @@ resources:
       num_vm: { get_param: num_fe }
 
 outputs:
-  instance_ip:
-    description: The URL of the website
-    value: {get_resource: vnf_keypair}
+  oam_floating_ip:
+    description: The IP of the OAM
+    value: {get_attr: [vnf_oam, resource.node_floating_ip, floating_ip_address]}
+
+  fe_ips:
+    description: The IP of the FEs
+    value: {get_attr: [vnf_fe, instances_ip]}

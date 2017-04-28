@@ -1,4 +1,4 @@
-heat_template_version: "2013-05-23"
+heat_template_version: 2015-04-30
 
 description: Main hot for creating vnf
 
@@ -13,9 +13,11 @@ parameters:
 
   net_name:
     type: string
+    default: net1
     
   sshkey_name:
     type: string
+    default: vnfkey
 
   num_vm:
     type: number
@@ -30,7 +32,7 @@ resources:
         type: OS::Nova::Server  
         properties:  
           image: {get_param: image_name}
-          key_name: {get_param: sshkey_name}
+          # key_name: {get_param: sshkey_name}
           name: FE_%index%
           flavor: {get_param: flavor_name}
           networks:
@@ -38,10 +40,20 @@ resources:
           user_data: |
             #!/bin/bash
             echo "Running boot script"
-
+          personality: 
+            /root/.ssh/authorized_keys: 
+              get_file: ../keypair/vnf_key.pub
 
 outputs:
-  instance_ip:
-    description: The URL of the website
-    value: { get_attr: [instances, attributes] }
+  instances_ip:
+    value: {get_attr: [instances, addresses,  {get_param: net_name}, 0, addr ]}
 
+
+  # test_ip:
+  #   # value: {get_attr: [instances, refs_map]}
+  #   value:
+  #     repeat:
+  #       for_each:
+  #         <%refen%>: {get_attr: [instances, refs]}
+  #       template:
+  #         Fn::GetAtt: [<%refen%>, addresses]
