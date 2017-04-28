@@ -4,21 +4,17 @@ version: "2.0"
 vnf_workflow:
   type: direct
 
-  input:
-    - names
 
   tasks:
-    get_template:
+    Instantiate:
       action: std.ssh host="127.0.0.1" username="root" password="siemens"
       input:
-        cmd: "cat /home/yaoyuan/noCBAM/hot/vnf.yaml"
+        cmd: "source /root/keystonerc_admin && heat stack-create helloworld -f /home/yaoyuan/noCBAM/hot/vnf.yaml"
       publish:
-        stack_template: <% $.get_template %>
-      on-success: Instantiate
+        stack_id: <% task(Instantiate).result %>
+      on-success:
+        - wait_for_stack
 
+    wait_for_stack:
+      action: std.echo output="<% task(Instantiate).result %>"
 
-    Instantiate:
-      action: heat.stacks_create stack_name="vnf" template=<% $.stack_template %>
-
-    # Terminate:
-    #   action: heat.stacks_delete stack_id=helloworld
