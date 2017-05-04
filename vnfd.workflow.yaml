@@ -10,11 +10,23 @@ vnf_workflow:
       action: std.ssh host="127.0.0.1" username="root" password="siemens"
       input:
         cmd: "source /root/keystonerc_admin && heat stack-create helloworld -f /home/yaoyuan/noCBAM/hot/vnf.yaml"
-      publish:
-        stack_id: <% task(Instantiate).result %>
       on-success:
         - wait_for_stack
 
     wait_for_stack:
-      action: std.echo output="<% task(Instantiate).result %>"
+      action: heat.stacks_get stack_id="helloworld"
+      publish:
+        stack_result: <% task(wait_for_stack).result %>
+        oam_ip: <% task(wait_for_stack).result.outputs.where($.output_key = "oam_floating_ip").select($.output_value).first() %>
+      retry:
+        count: 10
+        delay: 20
+        continue-on: <% task(wait_for_stack).result.stack_status = "CREATE_IN_PROGRESS" %>
+      on-success:
+        - Install_OAM: <% $.stack_result.stack_status_reason = "Stack CREATE completed successfully" %>
+
+    Install_OAM:
+      action: std.ssh host="127.0.0.1" username="root" password="siemens"
+      input:
+        cmd: "ssh-keygen -R <% $.oam_ip %> && ssh-keyscan <% $.oam_ip %> >> /root/.ssh/known_hosts"
 
