@@ -64,9 +64,17 @@ resources:
 
 outputs:
   oam_floating_ip:
-    description: The IP of the OAM
+    description: The flaoting-IP of the OAM
     value: {get_attr: [vnf_oam, resource.node_floating_ip, floating_ip_address]}
+
+  oam_ip:
+    description: The IP of the OAM
+    value: {get_attr: [vnf_oam, resource.node_port, fixed_ips, 0, ip_address]}
 
   fe_ips:
     description: The IP of the FEs
     value: {get_attr: [vnf_fe, instances_ip]}
+
+  be_ips:
+    description: The IP of the BEs
+    value: {get_attr: [vnf_be, instances_ip]}

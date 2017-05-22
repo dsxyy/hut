@@ -17,7 +17,10 @@ vnf_workflow:
       action: heat.stacks_get stack_id="helloworld"
       publish:
         stack_result: <% task(wait_for_stack).result %>
-        oam_ip: <% task(wait_for_stack).result.outputs.where($.output_key = "oam_floating_ip").select($.output_value).first() %>
+        oam_fip: <% task(wait_for_stack).result.outputs.where($.output_key = "oam_floating_ip").select($.output_value).first() %>
+        oam_ip: <% task(wait_for_stack).result.outputs.where($.output_key = "oam_ip").select($.output_value).first() %>
+        fe_ips: <% task(wait_for_stack).result.outputs.where($.output_key = "fe_ips").select($.output_value).first() %>
+        be_ips: <% task(wait_for_stack).result.outputs.where($.output_key = "be_ips").select($.output_value).first() %>
       retry:
         count: 10
         delay: 20
@@ -28,5 +31,76 @@ vnf_workflow:
     Install_OAM:
       action: std.ssh host="127.0.0.1" username="root" password="siemens"
       input:
-        cmd: "ssh-keygen -R <% $.oam_ip %> && ssh-keyscan <% $.oam_ip %> >> /root/.ssh/known_hosts"
+        cmd: "ssh-keygen -R <% $.oam_fip %> && ssh-keyscan <% $.oam_fip %> >> /root/.ssh/known_hosts"
+      on-success:
+        - generate_hosts
 
+    generate_hosts:
+      action: ansible
+      input:
+        hosts: 'localhost'
+        module: copy
+        module_args: 'src=/home/yaoyuan/noCBAM/ansible/SAAMLite/hosts.sample dest=/home/yaoyuan/noCBAM/ansible/SAAMLite/hosts'
+      on-success:
+        - write_oam_hosts
+
+    write_oam_hosts:
+      action: ansible
+      input:
+        hosts: 'localhost'
+        module: ini_file
+        module_args: 'dest=/home/yaoyuan/noCBAM/ansible/SAAMLite/hosts section=oam_servers  value=<% $.oam_fip %>'
+      on-success:
+        - write_fe_hosts
+
+    write_fe_hosts:
+      with-items: fe_ip in <% $.fe_ips %>
+      action: ansible
+      input:
+        hosts: 'localhost'
+        module: ini_file
+        module_args: 'dest=/home/yaoyuan/noCBAM/ansible/SAAMLite/hosts section=fe_servers  value=<% $.fe_ip %>'
+      concurrency: 1
+      on-success:
+        - write_be_hosts
+
+    write_be_hosts:
+      with-items: be_ip in <% $.be_ips %>
+      action: ansible
+      input:
+        hosts: 'localhost'
+        module: ini_file
+        module_args: 'dest=/home/yaoyuan/noCBAM/ansible/SAAMLite/hosts section=be_servers  value=<% $.be_ip %>'
+      concurrency: 1
+      on-success:
+        - rewrite_hosts
+
+    rewrite_hosts:
+      action: ansible
+      input:
+        hosts: 'localhost'
+        module: replace
+        module_args: 'dest=/home/yaoyuan/noCBAM/ansible/SAAMLite/hosts regexp="None = " replace=""'
+      on-success:
+        - copy_host_to_etc
+
+    copy_host_to_etc:
+      action: ansible
+      input:
+        hosts: 'localhost'
+        module: copy
+        module_args: 'src=/home/yaoyuan/noCBAM/ansible/SAAMLite/hosts dest=/etc/ansible/hosts'
+      on-success:
+        - install_oam_1
+
+    install_oam_1:
+      action: std.ssh host="127.0.0.1" username="root" password="siemens"
+      input:
+        cmd: 'cd /home/yaoyuan/noCBAM/ansible/SAAMLite && ansible-playbook site.yml -i hosts -e "oam_ctrl_ip=<% $.oam_ip %>" -l oam_servers'
+      on-success:
+        - install_saamlite
+
+    install_saamlite:
+      action: std.ssh host="<% $.oam_fip %>" username="root"
+      input:
+        cmd: 'cd /home/ansible/main/ && ansible-playbook site.yml -i hosts -e "oam_ctrl_ip=<% $.oam_ip %>" -l "be_servers fe_servers"'

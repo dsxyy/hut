@@ -1,4 +1,4 @@
-heat_template_version: "2013-05-23"
+heat_template_version: 2015-04-30
 
 description: Main hot for creating vnf
 
@@ -43,7 +43,5 @@ resources:
               get_file: ../keypair/vnf_key.pub
 
 outputs:
-  instance_ip:
-    description: The URL of the website
-    value: { get_attr: [instances, attributes] }
-
+  instances_ip:
+    value: {get_attr: [instances, addresses,  {get_param: net_name}, 0, addr ]}
