@@ -1,4 +1,6 @@
-ansible/SAAMLite/roles/oam/files
+ansible/SAAMLite/roles/*/files
+ansible/SAAMLite/hosts
+ansible/SAAMLite/site.retry
 *.py[cod]
 *.sqlite
 

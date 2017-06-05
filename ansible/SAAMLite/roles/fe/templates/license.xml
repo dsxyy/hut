@@ -1,0 +1,575 @@
+<License xsi:schemaLocation="http://www.siemens.at/License License.xsd "
+	xmlns="http://www.siemens.at/License" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<!--Basic information about the licencee, order, license inventory for handling 
+		of license not for PSA products! Sales/PLM to define the final content. -->
+	<LicenseInformation>
+		<LicenseCode>0</LicenseCode>
+		<LicenseName>Test</LicenseName>
+		<OrderId>TEST</OrderId>
+		<SerialNumber>0000020749920</SerialNumber>
+		<CustomerId>0001</CustomerId>
+		<CustomerName>CMCC</CustomerName>
+	</LicenseInformation>
+	<!--HW information, not checked by PSA, checked by PSA Lite -->
+	<LicensedServers>
+		<LicensedServer>
+			<Name>VM68</Name>
+			<Identification>
+				<Name>hostid</Name>
+				<Value>100a4409</Value>
+			</Identification>
+		</LicensedServer>
+		<LicensedServer>
+			<Name>VM104</Name>
+			<Identification>
+				<Name>hostid</Name>
+				<Value>100a3b09</Value>
+			</Identification>
+		</LicensedServer>
+		<LicensedServer>
+			<Name>VM69</Name>
+			<Identification>
+				<Name>hostid</Name>
+				<Value>100a4509</Value>
+			</Identification>
+		</LicensedServer>
+		<LicensedServer>
+			<Name>VM67</Name>
+			<Identification>
+				<Name>hostid</Name>
+				<Value>100a4309</Value>
+			</Identification>
+		</LicensedServer>
+		<LicensedServer>
+			<Name>SC-172.17.20.109</Name>
+			<Identification>
+				<Name>hostid</Name>
+				<Value>11ac6d14</Value>
+			</Identification>
+		</LicensedServer>
+		<LicensedServer>
+			<Name>hadoop1</Name>
+			<Identification>
+				<Name>hostid</Name>
+				<Value>100a6309</Value>
+			</Identification>
+		</LicensedServer>
+		<LicensedServer>
+			<Name>VM102</Name>
+			<Identification>
+				<Name>hostid</Name>
+				<Value>100a6609</Value>
+			</Identification>
+		</LicensedServer>
+		<LicensedServer>
+			<Name>hadoop2</Name>
+			<Identification>
+				<Name>hostid</Name>
+				<Value>100a6409</Value>
+			</Identification>
+		</LicensedServer>
+		<LicensedServer>
+			<Name>VM69</Name>
+			<Identification>
+				<Name>hostid</Name>
+				<Value>100a4209</Value>
+			</Identification>
+		</LicensedServer>
+		<LicensedServer>
+			<Name>VM70</Name>
+			<Identification>
+				<Name>hostid</Name>
+				<Value>100a3b09</Value>
+			</Identification>
+		</LicensedServer>
+		<LicensedServer>
+			<Name>VM71</Name>
+			<Identification>
+				<Name>hostid</Name>
+				<Value>100a4709</Value>
+			</Identification>
+		</LicensedServer>
+		<LicensedServer>
+			<Name>VM72</Name>
+			<Identification>
+				<Name>hostid</Name>
+				<Value>100a4809</Value>
+			</Identification>
+		</LicensedServer>
+		<LicensedServer>
+			<Name>VM103</Name>
+			<Identification>
+				<Name>hostid</Name>
+				<Value>100a3b09</Value>
+			</Identification>
+		</LicensedServer>
+		<LicensedServer>
+			<Name>VM08</Name>
+			<Identification>
+				<Name>hostid</Name>
+				<Value>100a3a09</Value>
+			</Identification>
+		</LicensedServer>
+		<LicensedServer>
+			<Name>VM07</Name>
+			<Identification>
+				<Name>hostid</Name>
+				<Value>100a3909</Value>
+			</Identification>
+		</LicensedServer>
+	</LicensedServers>
+	<!--Validitiy of License -->
+	<Validity>
+		<StartDate>UNLIMITED</StartDate>
+		<!--Date format is DD/MM/YYYY -->
+		<EndDate>UNLIMITED</EndDate>
+		<!--Date or UNLIMITED -->
+	</Validity>
+	<!--Definition of products -->
+	<!--Is it really a requrement to include more product description to same 
+		license file? If this is just a theoretycal case we suggest to remove multiple 
+		Product definition support. -->
+	<Products>
+		<Product>
+			<!--Long product names are used like "siriOSS PSA" and "siriOSS PSA Lite" 
+				and "SAAM Lite" -->
+			<Name>SAAM Lite</Name>
+			<!--Only major version number is checked by PSA -->
+			<Version>8.0</Version>
+			<!--Describes HW Architecture of the product. Following values are defined 
+				by PLMs - for PSA: Single Node (IBM, HP, Sun), IBM Entry configuration, IBM 
+				High-End configuration, HP HA configuration - for PSA Lite: High Availability 
+				- Hot Standby High Availability - "Multi Node"(Active/Active) License - per 
+				additional node PSA cannot check this value on application server level. -->
+			<HWArchitecture>HP Single Node</HWArchitecture>
+			<!--Threshold limits can be defined with name, description and limit value. 
+				It can hold multiple threshold definitions. -->
+			<Thresholds>
+				<!--Example Threshold definition for request number based limitation -->
+				<Threshold>
+					<Name>REQUEST_LIMIT</Name>
+					<Description>Limits the number of CREATE/DELETE/MODIFY RFS
+						operations.</Description>
+					<Limit>99999999</Limit>
+				</Threshold>
+				<!--Example Threshold definition for subscriber number based limitation -->
+				<Threshold>
+					<Name>SUBSCRIBER_LIMIT</Name>
+					<Description>Subscriber Limit</Description>
+					<Limit>100000</Limit>
+				</Threshold>
+			</Thresholds>
+			<!--Features section handles all enabled components including connectors 
+				too. -->
+			<Features>
+				<Feature>
+					<Code>0001990055</Code>
+					<Name>XCAP</Name>
+					<Type>XCAP</Type>
+					<Description>SB integration component supporting XCAP connection
+					</Description>
+					<Properties>
+						<Property>
+							<Name>MAX_NUMBER_OF_NE</Name>
+							<Description>Maximum numbers of request lines in request file.
+							</Description>
+							<Value>99</Value>
+						</Property>
+					</Properties>
+				</Feature>
+
+				<Feature>
+					<Code>3173</Code>
+					<Name>Trigger Agent</Name>
+					<Type>TRIGGER_Agent</Type>
+					<Description>SB integration component supporting HSSc</Description>
+					<Properties>
+						<Property>
+							<Name>MAX_NUMBER_OF_NE</Name>
+							<Description>Maximum numbers of request lines in request file.</Description>
+							<Value>99</Value>
+						</Property>
+					</Properties>
+				</Feature>
+				<Feature>
+					<Code>0002990055</Code>
+					<Name>boss agent</Name>
+					<Type>BOSS_SOAP_Agent</Type>
+					<Description>NB integration component supporting PSA Lite SOAP</Description>
+					<Properties>
+						<Property>
+							<Name>MAX_NUMBER_OF_AGENT</Name>
+							<Description>Maximum numbers of request lines in request file.</Description>
+							<Value>99</Value>
+						</Property>
+					</Properties>
+				</Feature>
+				<Feature>
+					<Code>0001990035</Code>
+					<Name>bulk agent</Name>
+					<Type>BOSS_BULK_Agent</Type>
+					<Description>NB integration component supporting Bulk Agent</Description>
+					<Properties>
+						<Property>
+							<Name>MAX_NUMBER_OF_AGENT</Name>
+							<Description>Maximum numbers of request lines in request file.</Description>
+							<Value>99</Value>
+						</Property>
+					</Properties>
+				</Feature>
+				<Feature>
+					<Code>0001990035</Code>
+					<Name>tas agent</Name>
+					<Type>BOSS_TAS_Agent</Type>
+					<Description>NB integration component supporting TAS Agent</Description>
+					<Properties>
+						<Property>
+							<Name>MAX_NUMBER_OF_AGENT</Name>
+							<Description>Maximum numbers of request lines in request file.</Description>
+							<Value>99</Value>
+						</Property>
+					</Properties>
+				</Feature>
+				<Feature>
+					<Code>0001990055</Code>
+					<Name>hlr telnet</Name>
+					<Type>NSN-HLR-TELNET</Type>
+					<Description>SB integration component supporting HLR telnet</Description>
+					<Properties>
+						<Property>
+							<Name>MAX_NUMBER_OF_NE</Name>
+							<Description>Maximum numbers of request lines in request file.</Description>
+							<Value>99</Value>
+						</Property>
+					</Properties>
+				</Feature>
+				<Feature>
+					<Code>0001990055</Code>
+					<Name>DX200 TELNET Agent</Name>
+					<Type>DX200_TELNET_Agent</Type>
+					<Description>NB integration component supporting DX200 telnet</Description>
+					<Properties>
+						<Property>
+							<Name>MAX_NUMBER_OF_NE</Name>
+							<Description>Maximum numbers of request lines in request file.</Description>
+							<Value>99</Value>
+						</Property>
+					</Properties>
+				</Feature>
+				<Feature>
+					<Code>0001990055</Code>
+					<Name>CUC TELNET Agent</Name>
+					<Type>CUC_Telnet_Agent</Type>
+					<Description>NB integration component supporting CUC telnet</Description>
+					<Properties>
+						<Property>
+							<Name>MAX_NUMBER_OF_NE</Name>
+							<Description>Maximum numbers of request lines in request file.</Description>
+							<Value>99</Value>
+						</Property>
+					</Properties>
+				</Feature>
+				<Feature>
+					<Code>0001990055</Code>
+					<Name>One-NDS connector</Name>
+					<Type>NSN-One-NDS</Type>
+					<Description>SB integration component supporting One-NDS connection</Description>
+					<Properties>
+						<Property>
+							<Name>MAX_NUMBER_OF_NE</Name>
+							<Description>Maximum numbers of request lines in request file.</Description>
+							<Value>99</Value>
+						</Property>
+					</Properties>
+				</Feature>
+				<Feature>
+					<Code>0001990055</Code>
+					<Name>template manager</Name>
+					<Type>TemplateManager</Type>
+					<Description>SB integration component supporting TM</Description>
+					<Properties>
+						<Property>
+							<Name>MAX_NUMBER_OF_NE</Name>
+							<Description>Maximum numbers of request lines in request file.</Description>
+							<Value>99</Value>
+						</Property>
+					</Properties>
+				</Feature>
+				<Feature>
+					<Code>0001990055</Code>
+					<Name>domain manager</Name>
+					<Type>DomainManager</Type>
+					<Description>SB integration component supporting DM</Description>
+					<Properties>
+						<Property>
+							<Name>MAX_NUMBER_OF_NE</Name>
+							<Description>Maximum numbers of request lines in request file.</Description>
+							<Value>99</Value>
+						</Property>
+					</Properties>
+				</Feature>
+				<Feature>
+					<Code>0001990025</Code>
+					<Name>NSN-DXHLR-FTP Test</Name>
+					<Type>NSN-DXHLR-FTP</Type>
+					<Description>SB integration component supporting DXHLR FTP</Description>
+					<Properties>
+						<Property>
+							<Name>MAX_NUMBER_OF_NE</Name>
+							<Description>Maximum numbers of request lines in request file.</Description>
+							<Value>99</Value>
+						</Property>
+					</Properties>
+				</Feature>
+				<Feature>
+					<Code>3473</Code>
+					<Name>NSN-One-NDS-ldap</Name>
+					<Type>NSN-One-NDS-ldap</Type>
+					<Description>SPML_Bulk_File_Agent</Description>
+					<Properties>
+						<Property>
+							<Name>MAX_NUMBER_OF_NE</Name>
+							<Description>Maximum numbers of request lines in request file.
+							</Description>
+							<Value>99</Value>
+						</Property>
+					</Properties>
+				</Feature>
+				<Feature>
+					<Code>3172</Code>
+					<Name>HSSSoap</Name>
+					<Type>HSSSoap</Type>
+					<Description>SB integration component supporting HSSc</Description>
+					<Properties>
+						<Property>
+							<Name>MAX_NUMBER_OF_NE</Name>
+							<Description>Maximum numbers of request lines in request file.</Description>
+							<Value>99</Value>
+						</Property>
+					</Properties>
+				</Feature>
+			</Features>
+		</Product>
+		<Product>
+			<!--Long product names are used like "siriOSS PSA" and "siriOSS PSA Lite" 
+				and "SAAM Lite" -->
+			<Name>siriOSS PSA Lite</Name>
+			<!--Only major version number is checked by PSA -->
+			<Version>8.0</Version>
+			<!--Describes HW Architecture of the product. Following values are defined 
+				by PLMs - for PSA: Single Node (IBM, HP, Sun), IBM Entry configuration, IBM 
+				High-End configuration, HP HA configuration - for PSA Lite: High Availability 
+				- Hot Standby High Availability - "Multi Node"(Active/Active) License - per 
+				additional node PSA cannot check this value on application server level. -->
+			<HWArchitecture>HP Single Node</HWArchitecture>
+			<!--Threshold limits can be defined with name, description and limit value. 
+				It can hold multiple threshold definitions. -->
+			<Thresholds>
+				<!--Example Threshold definition for request number based limitation -->
+				<Threshold>
+					<Name>REQUEST_LIMIT</Name>
+					<Description>Limits the number of CREATE/DELETE/MODIFY RFS
+						operations.</Description>
+					<Limit>99999999</Limit>
+				</Threshold>
+				<!--Example Threshold definition for subscriber number based limitation -->
+				<Threshold>
+					<Name>SUBSCRIBER_LIMIT</Name>
+					<Description>Subscriber Limit</Description>
+					<Limit>100000</Limit>
+				</Threshold>
+			</Thresholds>
+			<!--Features section handles all enabled components including connectors 
+				too. -->
+			<Features>
+				<Feature>
+					<Code>0001990055</Code>
+					<Name>XCAP</Name>
+					<Type>XCAP</Type>
+					<Description>SB integration component supporting XCAP connection
+					</Description>
+					<Properties>
+						<Property>
+							<Name>MAX_NUMBER_OF_NE</Name>
+							<Description>Maximum numbers of request lines in request file.
+							</Description>
+							<Value>99</Value>
+						</Property>
+					</Properties>
+				</Feature>
+				<Feature>
+					<Code>3173</Code>
+					<Name>Trigger Agent</Name>
+					<Type>TRIGGER_Agent</Type>
+					<Description>SB integration component supporting HSSc</Description>
+					<Properties>
+						<Property>
+							<Name>MAX_NUMBER_OF_NE</Name>
+							<Description>Maximum numbers of request lines in request file.</Description>
+							<Value>99</Value>
+						</Property>
+					</Properties>
+				</Feature>
+				<Feature>
+					<Code>0002990055</Code>
+					<Name>boss agent</Name>
+					<Type>BOSS_SOAP_Agent</Type>
+					<Description>NB integration component supporting PSA Lite SOAP</Description>
+					<Properties>
+						<Property>
+							<Name>MAX_NUMBER_OF_AGENT</Name>
+							<Description>Maximum numbers of request lines in request file.</Description>
+							<Value>99</Value>
+						</Property>
+					</Properties>
+				</Feature>
+				<Feature>
+					<Code>0001990035</Code>
+					<Name>bulk agent</Name>
+					<Type>BOSS_BULK_Agent</Type>
+					<Description>NB integration component supporting Bulk Agent</Description>
+					<Properties>
+						<Property>
+							<Name>MAX_NUMBER_OF_AGENT</Name>
+							<Description>Maximum numbers of request lines in request file.</Description>
+							<Value>99</Value>
+						</Property>
+					</Properties>
+				</Feature>
+				<Feature>
+					<Code>0001990035</Code>
+					<Name>tas agent</Name>
+					<Type>BOSS_TAS_Agent</Type>
+					<Description>NB integration component supporting TAS Agent</Description>
+					<Properties>
+						<Property>
+							<Name>MAX_NUMBER_OF_AGENT</Name>
+							<Description>Maximum numbers of request lines in request file.</Description>
+							<Value>99</Value>
+						</Property>
+					</Properties>
+				</Feature>
+				<Feature>
+					<Code>0001990055</Code>
+					<Name>hlr telnet</Name>
+					<Type>NSN-HLR-TELNET</Type>
+					<Description>SB integration component supporting HLR telnet</Description>
+					<Properties>
+						<Property>
+							<Name>MAX_NUMBER_OF_NE</Name>
+							<Description>Maximum numbers of request lines in request file.</Description>
+							<Value>99</Value>
+						</Property>
+					</Properties>
+				</Feature>
+				<Feature>
+					<Code>0001990055</Code>
+					<Name>One-NDS connector</Name>
+					<Type>NSN-One-NDS</Type>
+					<Description>SB integration component supporting One-NDS connection</Description>
+					<Properties>
+						<Property>
+							<Name>MAX_NUMBER_OF_NE</Name>
+							<Description>Maximum numbers of request lines in request file.</Description>
+							<Value>99</Value>
+						</Property>
+					</Properties>
+				</Feature>
+				<Feature>
+					<Code>0001990055</Code>
+					<Name>template manager</Name>
+					<Type>TemplateManager</Type>
+					<Description>SB integration component supporting TM</Description>
+					<Properties>
+						<Property>
+							<Name>MAX_NUMBER_OF_NE</Name>
+							<Description>Maximum numbers of request lines in request file.</Description>
+							<Value>99</Value>
+						</Property>
+					</Properties>
+				</Feature>
+				<Feature>
+					<Code>0001990055</Code>
+					<Name>DX200 TELNET Agent</Name>
+					<Type>DX200_TELNET_Agent</Type>
+					<Description>NB integration component supporting DX200 telnet</Description>
+					<Properties>
+						<Property>
+							<Name>MAX_NUMBER_OF_NE</Name>
+							<Description>Maximum numbers of request lines in request file.</Description>
+							<Value>99</Value>
+						</Property>
+					</Properties>
+				</Feature>
+				<Feature>
+					<Code>0001990055</Code>
+					<Name>CUC TELNET Agent</Name>
+					<Type>CUC_Telnet_Agent</Type>
+					<Description>NB integration component supporting CUC telnet</Description>
+					<Properties>
+						<Property>
+							<Name>MAX_NUMBER_OF_NE</Name>
+							<Description>Maximum numbers of request lines in request file.</Description>
+							<Value>99</Value>
+						</Property>
+					</Properties>
+				</Feature>
+				<Feature>
+					<Code>0001990055</Code>
+					<Name>domain manager</Name>
+					<Type>DomainManager</Type>
+					<Description>SB integration component supporting DM</Description>
+					<Properties>
+						<Property>
+							<Name>MAX_NUMBER_OF_NE</Name>
+							<Description>Maximum numbers of request lines in request file.</Description>
+							<Value>99</Value>
+						</Property>
+					</Properties>
+				</Feature>
+				<Feature>
+					<Code>0001990025</Code>
+					<Name>NSN-DXHLR-FTP Test</Name>
+					<Type>NSN-DXHLR-FTP</Type>
+					<Description>SB integration component supporting DXHLR FTP</Description>
+					<Properties>
+						<Property>
+							<Name>MAX_NUMBER_OF_NE</Name>
+							<Description>Maximum numbers of request lines in request file.</Description>
+							<Value>99</Value>
+						</Property>
+					</Properties>
+				</Feature>
+				<Feature>
+					<Code>3473</Code>
+					<Name>NSN-One-NDS-ldap</Name>
+					<Type>NSN-One-NDS-ldap</Type>
+					<Description>SPML_Bulk_File_Agent</Description>
+					<Properties>
+						<Property>
+							<Name>MAX_NUMBER_OF_NE</Name>
+							<Description>Maximum numbers of request lines in request file.
+							</Description>
+							<Value>99</Value>
+						</Property>
+					</Properties>
+				</Feature>
+				<Feature>
+					<Code>2172</Code>
+					<Name>HSSSoap</Name>
+					<Type>HSSSoap</Type>
+					<Description>SB integration component supporting HSSc</Description>
+					<Properties>
+						<Property>
+							<Name>MAX_NUMBER_OF_NE</Name>
+							<Description>Maximum numbers of request lines in request file.</Description>
+							<Value>99</Value>
+						</Property>
+					</Properties>
+				</Feature>
+			</Features>
+		</Product>
+	</Products>
+	<!--Signature of the file prooving the validity -->
+	<Signature>mB08K1e2T3UDrQgr77Tx39dYo9piC.da250YxDKqSuj0cgKSZ2V6i/2KPAYj4</Signature>
+</License>

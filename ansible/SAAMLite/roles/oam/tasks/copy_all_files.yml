@@ -1,0 +1,30 @@
+---
+
+- name: create /etc/ansible/facts.d file
+  file: path=/etc/ansible/facts.d state=directory
+
+- name: copy preferences.fact file to oam
+  template: src=../templates/preferences.fact dest=/etc/ansible/facts.d/
+
+- name: mode /root/.ssh/id_rsa permission to 600
+  file: path=/root/.ssh/id_rsa mode=600
+
+- name: create /home/ansible/main directory on oam servers
+  file: path=/home/ansible/main state=directory mode=777
+
+- file: path=/home/ansible/main/group_vars state=directory mode=777
+
+- name: copy group_vars/main.yml file to oam
+  template: src=../../../group_vars/main.yml dest=/home/ansible/main/group_vars/main.yml
+
+- name: copy all files to oam servers === This will take up to 5 minutes 
+  copy: src=../../../{{ item }} dest=/home/ansible/main/
+  with_items:
+#    - group_vars
+    - roles
+    - hosts
+    - site.yml
+
+
+
+

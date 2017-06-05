@@ -1,0 +1,26 @@
+be_saamlite:
+- SAAMLV80base.noarch
+- SAAMLV80naoma.noarch
+- SAAMLV80netact.noarch
+- SAAMLV80kpi.noarch
+- SAAMLV80hwalarms.noarch
+- SAAMLV80bossa.noarch
+- SAAMLV80cmccvolte.noarch
+- SAAMLV80dm.noarch
+- SAAMLV80necnol.noarch
+- SAAMLV80necnoss.noarch
+- SAAMLV80tm.noarch
+be_SAAMLV80kpinetact: true
+saamlite_package_total: 12
+be_zip_package_name: SAAML_8.0_14655_V5.10_FE.zip
+be_unzip_password: 1
+
+#be_opt_csic_script:
+# - globals.sh
+# - log.sh
+
+#be_var_opt_csic_config:
+# - csic.env
+# - users.xml
+# - process.conf
+# - authentication.properties

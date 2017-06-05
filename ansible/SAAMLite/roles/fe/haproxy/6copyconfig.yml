@@ -1,0 +1,4 @@
+---
+
+- name: copy haproxy.cfg file
+  template: src=../templates/haproxy.cfg dest=/usr/local/haproxy/etc/

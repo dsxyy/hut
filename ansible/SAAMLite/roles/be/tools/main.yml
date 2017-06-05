@@ -1,0 +1,9 @@
+---
+
+- name: install base tools
+  yum: name={{ item }} state=present disablerepo=* enablerepo=packages
+  with_items:
+     - unzip
+ #    - libselinux-python  # error message: Aborting, target uses selinux but python bindings (libselinux-python) aren't installed!
+
+

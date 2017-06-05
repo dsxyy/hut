@@ -1,0 +1,26 @@
+---
+
+
+
+- name: copy globals.sh to FE destination
+  template: src=../templates/{{ item }} dest=/opt/csic/scripts/ mode=744 backup=no  group=csi owner=csi-adm
+  with_items:
+      - globals.sh
+
+- name: copy csic.ini to FE destination
+  template: src=../templates/fe_csic.ini dest=/var/opt/csic/config/csic.ini mode=644 backup=no group=csi owner=csi-adm
+
+- name: copy csic.env user.xml to FE destination
+  template: src=../templates/{{ item }} dest=/var/opt/csic/config/ mode=644 backup=no group=csi owner=csi-adm
+  with_items:
+      - csic.env
+      - users.xml
+
+#- name: copy users.xml to FE destination
+#  template: src=../templates/fe_users.xml dest=/var/opt/csic/config/users.xml mode=644 backup=no group=csi owner=csi-adm
+
+- name: copy authentication.properties to FE destination
+  template: src=../templates/fe_authentication.properties dest=/var/opt/csic/config/authentication.properties mode=644 backup=no group=csi owner=csi-adm
+
+- name: copy license.xml to FE destination
+  template: src=../templates/license.xml dest=/var/opt/csic/license/ mode=644 backup=no group=csi owner=csi-adm

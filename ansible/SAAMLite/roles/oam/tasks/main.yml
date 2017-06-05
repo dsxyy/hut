@@ -1,0 +1,6 @@
+---
+
+- include: copy_all_files.yml
+- include: create_yum_source.yml
+- include: install_ansible.yml
+#- include: ../../be/tasks/main.yml

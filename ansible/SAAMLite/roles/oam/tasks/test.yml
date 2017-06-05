@@ -1,0 +1,5 @@
+
+- name: test
+  template: src=../templates/{{ item }} dest=/etc/yum.repos.d/
+  with_items:
+     - saamlite.repo

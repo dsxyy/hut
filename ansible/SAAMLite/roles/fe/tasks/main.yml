@@ -1,0 +1,8 @@
+---
+
+
+- include: ../default/main.yml
+- include: ../tools/main.yml
+- include: ../jdk/main.yml
+- include: install_saamlite.yml
+#- include: ../haproxy/main.yml

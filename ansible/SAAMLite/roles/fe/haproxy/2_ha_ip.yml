@@ -1,0 +1,12 @@
+---
+
+- name: check /etc/sysctl.conf file
+  shell: cat /etc/sysctl.conf
+  register: result
+
+- name: add ip in /etc/sysctl.conf file
+  shell:  echo 'net.ipv4.ip_nonlocal_bind=1' >> /etc/sysctl.conf
+  when: result.stdout.find('net.ipv4.ip_nonlocal_bind') == -1
+
+- name: stop firewall
+  service:  name=iptables state=stopped

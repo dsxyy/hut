@@ -1,0 +1,60 @@
+---
+
+#- name: stop firewall
+#  service: name=iptables state=stopped
+
+- name: setenforce 0
+  shell: setenforce 0
+
+#- name: create /mnt/centos directory
+#  file: path=/mnt/centos state=directory
+
+#- name: execute mount
+#  mount: name=/mnt/centos/ src=/home/ansible/main/roles/oam/files/packages state=mounted fstype=ext4 opts=-F
+#  shell: mount -o loop /home/CentOS-7.2-x86_64-DVD-1511.iso /mnt/centos
+
+#- name: copy rhel-source.repo files to dest
+#  template: src=../templates/{{ item }} dest=/etc/yum.repos.d/
+#  with_items:
+#     - rhel-source.repo
+
+
+- name: install httpd createrepo
+  yum: name=/home/ansible/main/roles/oam/files/packages/{{ item }} state=present
+  with_items:
+        - mailcap-2.1.41-2.el7.noarch.rpm
+        - apr-1.4.8-3.el7.x86_64.rpm
+        - apr-util-1.5.2-6.el7.x86_64.rpm
+        - httpd-tools-2.4.6-40.el7.centos.x86_64.rpm
+        - httpd-2.4.6-40.el7.centos.x86_64.rpm
+        - libxml2-python-2.9.1-5.el7_1.2.x86_64.rpm
+        - python-deltarpm-3.6-3.el7.x86_64.rpm
+        - deltarpm-3.6-3.el7.x86_64.rpm
+        - createrepo-0.9.9-23.el7.noarch.rpm
+
+
+#- name: install httpd createrepo
+#  yum: name={{ item }} state=present
+#  with_items:
+#     - httpd
+#     - createrepo
+
+- name: start httpd service
+  service: name=httpd state=restarted
+
+- name: createrepo create packages  link
+  shell: createrepo /home/ansible/main/roles/oam/files/packages/
+
+#- name:  create packages  link
+#  file: src=/mnt/centos dest=/var/www/html/centos state=link
+
+#- name: createrepo create packages  link
+#  shell: createrepo /home/ansible/main/roles/oam/files/cmcc/
+
+- file: src=/home/ansible/main/roles/oam/files/packages dest=/var/www/html/packages state=link
+
+- name: copy packages.repo files
+  template: src=../templates/{{ item }} dest=/etc/yum.repos.d/
+  with_items:
+     - packages.repo
+

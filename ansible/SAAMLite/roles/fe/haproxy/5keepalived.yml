@@ -1,0 +1,28 @@
+---
+
+- name: create /home/install/keepalivedha directory
+  file: path={{ item }} state=directory
+  with_items:
+  - /home/install/keepalivedha
+  - /etc/keepalived
+  - /usr/local/haproxy/etc
+  - /usr/local/haproxy/sbin
+
+- name: copy keepalived and unzip
+  unarchive: src=../files/keepalived-1.2.2.tar.gz dest=/home/install/keepalivedha/
+
+- name: copy keepalivedha.sh
+  template: src=../templates/keepalivedha.sh dest=/home/install/keepalivedha/ mode=777
+
+- name: run keepalivedha.sh
+  shell: /home/install/keepalivedha/keepalivedha.sh
+
+- name: copy file {{ item.initial }} --> {{ item.destination }}
+  shell: cp {{ item.initial }} {{ item.destination }}
+  with_items:
+  - { initial: '/usr/local/etc/rc.d/init.d/keepalived', destination: '/etc/rc.d/init.d/' }
+  - { initial: '/usr/local/etc/sysconfig/keepalived', destination: '/etc/sysconfig/' }
+  - { initial: '/usr/local/sbin/keepalived', destination: '/usr/sbin/' }
+
+- name: copy keepalived.conf file
+  template: src=../templates/keepalived.conf dest=/etc/keepalived/

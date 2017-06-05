@@ -1,0 +1,10 @@
+---
+
+
+- name: uninstall jdk
+  yum: name=jdk state=absent 
+
+- name: install new jdk -- jdk-1.7.0_45-fcs.x86_64
+  yum: name=jdk.x86_64 state=present disablerepo=* enablerepo=packages
+
+- include: jdk_variable.yml

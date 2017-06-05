@@ -1,0 +1,4 @@
+---
+
+- name: add VRRP
+  shell: iptables -A INPUT -d 224.0.0.18 -j ACCEPT

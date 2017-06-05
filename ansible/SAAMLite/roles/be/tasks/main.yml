@@ -1,0 +1,11 @@
+---
+
+- include: ../default/main.yml
+- include: ../jdk/main.yml
+- include: ../tools/main.yml
+- include: install_saamlite.yml
+- include: update.yml
+- include: config.yml
+#- include: test.yml
+
+

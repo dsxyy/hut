@@ -1,0 +1,5 @@
+---
+
+
+- name: copy packages.repo files
+  template: src=../../oam/templates/packages.repo dest=/etc/yum.repos.d/

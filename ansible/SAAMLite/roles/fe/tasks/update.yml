@@ -1,0 +1,19 @@
+---
+
+
+- name: copy {{ fe_zip_package_name }} to FE destination
+  copy: src=../files/{{ fe_zip_package_name }} dest=/home/cmcc/update/
+
+- name: unzip  {{ fe_zip_package_name }} 
+  shell: unzip -P {{ fe_unzip_password }} -o /home/cmcc/update/{{ fe_zip_package_name }} -d /home/cmcc/update/
+
+- name: modify permission 
+  command: chmod 777 /home/cmcc/update/update.sh
+
+
+- name: execute update.sh 
+  shell: /home/cmcc/update/update.sh
+  register: result
+
+- name: Show debug info 
+  debug: var=result.stdout_lines verbosity=0

@@ -1,0 +1,2 @@
+[general]
+oam_ctrl_ip={{ oam_ctrl_ip }}

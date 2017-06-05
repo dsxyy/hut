@@ -1,0 +1,9 @@
+---
+
+- name: check /etc/hosts file
+  command: cat /etc/hosts
+  register: result
+
+- name: add hostname and ipv4 to /etc/hosts file
+  shell: /bin/echo {{ ansible_default_ipv4.address }}  {{ ansible_hostname }} >> /etc/hosts
+  when: result.stdout.find('{{ ansible_hostname }}') == -1

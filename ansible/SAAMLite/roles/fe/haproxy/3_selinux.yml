@@ -1,0 +1,9 @@
+---
+
+- name: change params in /etc/sysconfig/selinux file
+#  shell:  cat /etc/sysconfig/selinux | grep 'SELINUX'
+#  register: result
+  shell: sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/sysconfig/selinux
+
+- name: setenforce 0
+  shell: setenforce 0

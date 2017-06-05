@@ -1,0 +1,36 @@
+---
+
+- name: check /etc/hosts file
+  command: cat /etc/hosts
+  register: result
+
+- name: add hostname and default ipv4 to /etc/hosts file
+  shell: /bin/echo {{ ansible_default_ipv4.address }}  {{ ansible_hostname }} >> /etc/hosts
+  when: result.stdout.find('{{ ansible_hostname }}') == -1
+
+
+- name: install SAAMLite --> {{ be_saamlite }}
+  yum: name={{ be_saamlite }} state=present disablerepo=* enablerepo=packages
+  register: result
+
+- name: Show debug info 
+  debug: var=result verbosity=0
+
+#- name: install SAAMLV80kpinetact
+#  yum: name=http://{{ oam_ctrl_ip }}/packages/SAAMLV80kpinetact-8.0-14655.noarch.rpm state=present
+#  when: be_SAAMLV80kpinetact  == True
+
+- name: download SAAMLV80kpinetact-8.0-14655.noarch.rpm
+  get_url: 
+     url: http://{{ oam_ctrl_ip }}/packages/SAAMLV80kpinetact-8.0-14655.noarch.rpm
+     dest: /tmp/SAAMLV80kpinetact-8.0-14655.noarch.rpm
+  when: be_SAAMLV80kpinetact  == True
+
+- name: install SAAMLV80kpinetact-8.0-14655.noarch.rpm
+  shell: rpm -ivh /tmp/SAAMLV80kpinetact-8.0-14655.noarch.rpm --replacefiles
+  register: kpinetact_result
+  when: be_SAAMLV80kpinetact  == True
+
+#- name: Show debug info 
+#  debug: var=kpinetact_result verbosity=0
+

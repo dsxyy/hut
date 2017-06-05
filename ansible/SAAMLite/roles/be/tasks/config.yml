@@ -1,0 +1,28 @@
+---
+
+#  vars_files:
+#    - ../vars/saamlite_be.yml
+
+ # tasks:
+- name: copy {{ item }} to BE destination
+  copy: src=../templates/{{ item }} dest=/opt/csic/scripts/ mode=744 backup=yes  group=csi owner=csi-adm
+  with_items:
+      - globals.sh
+      - log.sh
+
+- name: copy csic.ini to BE destination
+  template: src=../templates/be_csic.ini dest=/var/opt/csic/config/csic.ini mode=644 backup=yes  group=csi owner=csi-adm
+
+- name: copy license.xml to BE destination
+  template: src=../templates/license.xml dest=/var/opt/csic/license/ mode=644 backup=yes  group=csi owner=csi-adm
+
+- name: copy {{ item }} to BE destination
+  template: src=../templates/{{ item }} dest=/var/opt/csic/config/ mode=644 backup=yes  group=csi owner=csi-adm
+  with_items:
+      - csic.env
+      - users.xml
+      - process.conf
+      - authentication.properties
+
+- name: configuration timing task -> log.sh
+  cron: name="crontab about SAAMLite log" minute=*/4 hour=* day=* month=* weekday=* job="/opt/csic/scripts/log.sh"

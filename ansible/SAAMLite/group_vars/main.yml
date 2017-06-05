@@ -1,0 +1,71 @@
+
+########################################
+#                                      #
+# OAM Initial references configuration #
+#                                      #
+########################################
+#oam_ctrl_ip: {{ oam_ctrl_ip }}
+#oam_ctrl_ip: {{ ansible_all_ipv4_addresses }}
+#oam_ctrl_ip: 10.16.9.138
+
+
+########################################
+#                                      #
+# BE Initial references configuration  #
+#                                      #
+########################################
+
+#### BE node saamlite packages should be installed###
+be_saamlite:
+- SAAMLV80base
+- SAAMLV80naoma
+- SAAMLV80netact
+- SAAMLV80kpi
+- SAAMLV80hwalarms
+- SAAMLV80bossa
+- SAAMLV80cmccvolte
+- SAAMLV80dm
+- SAAMLV80necnol
+- SAAMLV80necnoss
+- SAAMLV80tm
+
+#### SAAMLV80kpinetact should be installed, the value range: true, false###
+be_SAAMLV80kpinetact: true
+be_saamlite_package_total: 12
+be_zip_package_name: SAAML_8.0_14655_V5.10_FE.zip
+be_unzip_password: 1
+
+
+########################################
+#                                      #
+# FE Initial references configuration  #
+#                                      #
+########################################
+
+#### FE node saamlite packages should be installed###
+fe_saamlite:
+- SAAMLV80base.noarch
+- SAAMLV80hwalarms.noarch
+fe_saamlite_package_total: 2
+fe_SAAMLV80kpinetact: false
+fe_zip_package_name: SAAML_8.0_14655_FE_base.zip
+fe_unzip_password: 1
+
+################### Haproxy and Keepalived  ##########################
+
+####### keepalived config #########
+notification_email: sfy@163.com
+smtp_server: 127.0.0.1
+vrrp_instance_interface: eth0
+virtual_router_id: 30
+track_interface1: eth0
+track_interface2: eth1
+virtual_ipaddress: 10.16.9.98/16
+
+
+####### haproxy config ################
+VIP_AND_PORT: 10.16.9.98:7778
+BE01_IP_AND_PORT: 192.168.100.12:7777
+BE02_IP_AND_PORT: 192.168.100.13:7777
+web_username: admin
+web_password: 123456 

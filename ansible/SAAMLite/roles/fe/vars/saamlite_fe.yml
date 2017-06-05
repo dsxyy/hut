@@ -1,0 +1,9 @@
+saamlite:
+- SAAMLV80base.noarch
+- SAAMLV80hwalarms.noarch
+saamlite_package_total: 2
+SAAMLV80kpinetact: false
+fe_zip_package_name: SAAML_8.0_14655_FE_base.zip
+fe_unzip_password: 1
+
+

@@ -1,0 +1,9 @@
+---
+- hosts: FE
+  vars_files:
+    - ../vars/main.yml
+    - ../vars/haproxy.yml
+
+  tasks:
+    - name: copy haproxy.cfg file
+      template: src=../templates/haproxy.cfg dest=/tmp/

@@ -1,0 +1,5 @@
+[packages]
+name=packages
+baseurl=http://{{ oam_ctrl_ip }}/packages/
+enabled=1
+gpgcheck=0

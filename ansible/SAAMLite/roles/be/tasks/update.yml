@@ -1,0 +1,23 @@
+---
+
+#  vars_files:
+ #   - ../vars/main.yml
+#    - ../vars/saamlite_be.yml
+
+ # tasks:
+- name: copy {{ be_zip_package_name }} to BE destination  /home/cmcc/update/
+  copy: src=../files/{{ be_zip_package_name }} dest=/home/cmcc/update/
+
+- name: unzip  {{ be_zip_package_name }} 
+  shell: unzip -P {{ be_unzip_password }} -o /home/cmcc/update/{{ be_zip_package_name }} -d /home/cmcc/update/; chmod 777 /home/cmcc/update/*.sh
+
+# need add sleep
+#    - name: modify permission 
+#      shell: chmod 775 /home/cmcc/update/*.sh
+
+- name: execute update.sh 
+  shell: /home/cmcc/update/update.sh
+  register: result
+
+- name: Show debug info 
+  debug: var=result.stdout_lines verbosity=0

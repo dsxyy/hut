@@ -1,0 +1,24 @@
+---
+- hosts: BE
+  user: root
+  vars_files:
+    - vars.yml
+    - ../vars/main.yml
+
+  tasks:
+    - name: check SAAMLite package
+      shell: rpm -qa|grep SAAM|wc -l
+      register: result
+
+    - name: Show debug info
+      debug: var=result.stdout verbosity=0
+      when: result.stdout == "{{ saamlite_package_total }}"
+
+    - name: check saamlite install successful or failed
+      shell: echo 'install SAAMLite successful'
+      register: result_install_s
+      when: result.stdout == "{{ saamlite_package_total }}"
+
+    -  debug: var=result_install_s.stdout verbosity=0
+
+

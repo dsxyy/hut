@@ -1,0 +1,25 @@
+---
+- hosts: all
+  roles:
+  - role: common
+
+- hosts: oam_servers
+  roles:
+  - role: oam
+  - role: be
+  vars_files:
+  - group_vars/main.yml
+
+
+- hosts: be_servers
+  roles:
+  - role: be
+  vars_files:
+  - group_vars/main.yml
+
+- hosts: fe_servers
+  roles:
+  - role: fe
+  vars_files:
+  - group_vars/main.yml
+

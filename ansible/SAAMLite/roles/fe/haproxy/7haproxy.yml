@@ -1,0 +1,19 @@
+---
+
+- name: copy haproxy and unzip
+  unarchive: src=../files/haproxy-1.4.11.tar.gz dest=/home/install/keepalivedha/
+
+- name: copy haproxy.sh
+  template: src=../templates/haproxy.sh dest=/home/install/keepalivedha/ mode=777
+
+- name: run haproxy.sh
+  shell: /home/install/keepalivedha/haproxy.sh
+
+- name: copy haproxy.cfg file
+  template: src=../templates/haproxy.cfg dest=/usr/local/haproxy/etc/
+
+- name: create flexible coupling
+  file: src=/usr/local/sbin/haproxy dest=/usr/local/haproxy/sbin/haproxy state=link
+
+- name: copy haproxy.cfg file
+  template: src=../templates/haproxy.cfg dest=/usr/local/haproxy/etc/

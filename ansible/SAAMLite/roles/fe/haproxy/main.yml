@@ -1,0 +1,9 @@
+---
+
+- include: 1_haproxy.yml
+- include: 2_ha_ip.yml
+- include: 3_selinux.yml
+- include: 4_addVRRP.yml
+- include: 5keepalived.yml
+- include: 6copyconfig.yml
+- include: 7haproxy.yml

@@ -1,0 +1,16 @@
+####### keepalived config #########
+notification_email: sfy@163.com
+smtp_server: 127.0.0.1
+vrrp_instance_interface: eth0
+virtual_router_id: 30
+track_interface1: eth0
+track_interface2: eth1
+virtual_ipaddress: 10.16.9.98/16
+
+
+####### ha config ################
+VIP_AND_PORT: 10.16.9.98:7778
+BE01_IP_AND_PORT: 192.168.100.12:7777
+BE02_IP_AND_PORT: 192.168.100.13:7777
+web_username: admin
+web_password: 123456 
