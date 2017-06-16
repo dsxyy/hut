@@ -1,0 +1,50 @@
+heat_template_version: 2015-04-30
+
+description: Main hot for creating vnf
+
+parameters:
+  image_name:
+    type: string
+    default: centos_7_2
+
+  flavor_name:
+    type: string
+    default: m1.medium
+
+  net_name:
+    type: string
+    
+  sshkey_name:
+    type: string
+
+  index:
+    type: string
+    description: the current index in the resource group as number
+
+resources:
+  be:
+    type: OS::Nova::Server  
+    properties:  
+      image: {get_param: image_name}
+      key_name: {get_param: sshkey_name}
+      name: {list_join: ['-', ['be', {get_param: index}]]}
+      flavor: {get_param: flavor_name}
+      networks:
+        - network: { get_param: net_name }
+      user_data_format: RAW
+      user_data: |
+        #cloud-config
+        disable_root: False
+        password: root123
+        chpasswd:
+            list: |
+                root:root123
+            expire: False
+        ssh_pwauth: True
+      # personality: 
+        # /root/.ssh/authorized_keys: 
+          # get_file: ../keypair/vnf_key.pub
+
+outputs:
+  # instances_ip:
+    # value: {get_attr: [instances, addresses,  {get_param: net_name}, 0, addr ]}

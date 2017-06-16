@@ -1,0 +1,98 @@
+tosca_definitions_version: tosca_simple_profile_for_nfv_1_0_0_nokia
+
+description: Siemens saam-lite scalable VNFD
+
+topology_template:
+  substitution_mappings:
+    node_type: tosca.nodes.nfv.VNF
+    properties:
+      descriptor_id: siemens_saam_lite_verizon
+      descriptor_version: '1.0'
+      provider: Siemens
+      product_name: Siemens SAAM Lite
+      software_version: '1.0'
+      product_info_name: Siemens SAAM Lite
+      vnfm_info:
+        - CBAM
+    capabilities:
+      deployment_flavour:
+        properties:
+          flavour_id: scalable
+          description: scalable_deployment
+          scaling_aspects:
+            BEAspect:
+              name: BEAspect
+              description: BE scaling aspect
+              associated_group: scalableBEScalingGroup
+              max_scale_level: 3
+          instantiation_levels:
+            base:
+              description: ..
+              vdu_levels:
+                OAM:
+                  number_of_instances: 3
+                scalableBE:
+                  number_of_instances: 1
+              scale_info:
+                BEAspect:
+                  scale_level: 2
+          default_instantiation_level_id: base
+          vdu_profile: {}
+
+    interfaces:
+      Basic:
+        instantiate:
+        terminate:
+
+      Scalable:
+        scale:
+      #     inputs:
+      #       extensions:
+      #         pre_actions:
+      #         - ansible: ansible/scale-in/playbook-scale-in.yml 
+
+  node_templates:
+    OAM:
+      type: tosca.nodes.nfv.VDU
+      properties:
+        description: OAM node
+
+    scalableBE:
+      type: tosca.nodes.nfv.VDU
+      properties:
+        description: BE nodes
+
+  groups:
+    scalableBEScalingGroup:
+      type: tosca.groups.nfv.ElementGroup
+      description: scalableBEScalingGroup
+      members: [scalableBE]
+
+  policies:
+    - commissioning: # should not be needed by default
+        type: tosca.policies.nfv.Commissioning
+        properties:
+          ssh_key_management: generate_per_vnf
+
+    - heat_mapping:
+        type: tosca.policies.nfv.HeatMapping
+        properties:
+          template:
+            main: siemens.saamlite.hot.scalable.main.yaml
+            nested:
+             - siemens.hot.oam.yaml
+             - oam.yaml
+
+          static:
+            vdus:
+              OAM:
+                - heatResource: oam.oam
+
+          aspects:
+            BEAspect:
+              heatResource: be_aspect_group
+              vdus:
+                scalableBE:
+                  - heatResource: be
+
+
