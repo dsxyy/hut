@@ -14,85 +14,101 @@ topology_template:
       product_info_name: Siemens SAAM Lite
       vnfm_info:
         - CBAM
+    requirements:
+      - virtual_link: [ oam_ecp, external_virtual_link ]
     capabilities:
       deployment_flavour:
         properties:
           flavour_id: scalable
           description: scalable_deployment
-          scaling_aspects:
-            BEAspect:
-              name: BEAspect
-              description: BE scaling aspect
-              associated_group: scalableBEScalingGroup
-              max_scale_level: 3
           instantiation_levels:
             base:
               description: ..
               vdu_levels:
                 OAM:
-                  number_of_instances: 3
-                scalableBE:
                   number_of_instances: 1
-              scale_info:
-                BEAspect:
-                  scale_level: 2
           default_instantiation_level_id: base
-          vdu_profile: {}
-
+          vdu_profile:
+            OAM:
+              min_number_of_instances: 1
+              max_number_of_instances: 1 
     interfaces:
       Basic:
         instantiate:
         terminate:
-
-      Scalable:
-        scale:
-      #     inputs:
-      #       extensions:
-      #         pre_actions:
-      #         - ansible: ansible/scale-in/playbook-scale-in.yml 
 
   node_templates:
     OAM:
       type: tosca.nodes.nfv.VDU
       properties:
         description: OAM node
+      requirements:
+        - virtual_compute: server_compute
+        - sw_image: server_image
 
-    scalableBE:
-      type: tosca.nodes.nfv.VDU
+    server_compute:
+      type: tosca.nodes.nfv.VirtualCompute
       properties:
-        description: BE nodes
+        virtual_memory:
+            virtual_mem_size: 512 MB
+        virtual_cpu:
+            cpu_architecture: x86
+            num_virtual_cpu: 1
+            virtual_cpu_clock: 1800 MHz
+ 
+    server_image:
+      type: tosca.nodes.nfv.SwImage
+      properties:
+        sw_image: cirros
+        checksum: ee1eca47dc88f4879d8a229cc70a07c6
+        name: Software of Simple with one server
+        version: 1.0
+        container_format: qcow2
+        disk_format: bare
+        min_disk: 4 GB
+        size: 12.5 MB
 
-  groups:
-    scalableBEScalingGroup:
-      type: tosca.groups.nfv.ElementGroup
-      description: scalableBEScalingGroup
-      members: [scalableBE]
+    oam_cp:
+      type: tosca.nodes.nfv.ICP
+      properties:
+        layer_protocol: ipv4
+      requirements:
+        - virtual_binding: OAM
+        - virtual_link: internal_vl
 
+    # virtual links
+    internal_vl:
+      type: tosca.nodes.nfv.VL
+      properties:
+        connectivity_type:
+          layer_protocol: ipv4
+        vl_flavours: {}
+
+    oam_ecp:
+      type: tosca.nodes.nfv.ECP
+      properties:
+        layer_protocol: ipv4
+      requirements:
+        - internal_connection_point: oam_cp
+        #- external_virtual_link: # exposed on VNF boundary
+ 
   policies:
-    - commissioning: # should not be needed by default
+    - commissioning:
         type: tosca.policies.nfv.Commissioning
         properties:
           ssh_key_management: generate_per_vnf
-
+          connection_points:
+            - oam_cp
     - heat_mapping:
         type: tosca.policies.nfv.HeatMapping
         properties:
           template:
             main: siemens.saamlite.hot.scalable.main.yaml
             nested:
-             - siemens.hot.oam.yaml
-             - oam.yaml
-
+              - oam.yaml
           static:
             vdus:
               OAM:
                 - heatResource: oam.oam
-
-          aspects:
-            BEAspect:
-              heatResource: be_aspect_group
-              vdus:
-                scalableBE:
-                  - heatResource: be
-
-
+                  connectionPoints:
+                    oam_cp: oam.oam

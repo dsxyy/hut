@@ -1,0 +1,48 @@
+{
+    "flavourId": "default", 
+    "grantlessMode": true, 
+    "softwareImages": [
+        {
+            "resourceId": "rhel-7.2", 
+            "vnfdSoftwareImageId": "server_image"
+        }
+    ], 
+    "extVirtualLinks": [
+        {
+            "resourceId": "cbam", 
+            "extCps": [
+                {
+                    "addresses": [], 
+                    "cpdId": "oam_ecp"
+                }
+            ]
+        }
+    ], 
+    "extManagedVirtualLinks": [
+        {
+            "resourceId": "Internal", 
+            "virtualLinkDescId": "internal_vl"
+        }
+    ], 
+    "computeResourceFlavours": [
+        {
+            "vnfdVirtualComputeDescId": "server_compute", 
+            "resourceId": "m1.medium"
+        }
+    ], 
+    "vims": [
+        {
+            "id": "overcloud", 
+            "interfaceInfo": {
+                "region": "regionOne"
+            }, 
+            "interfaceEndpoint": "http://192.168.71.100:5000/v2.0/", 
+            "accessInfo": {
+                "password": "h0r1z0n", 
+                "tenant": "admin", 
+                "username": "admin"
+            }
+        }
+    ],
+    "instantiationLevelId": "base"
+} 
